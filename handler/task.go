@@ -117,3 +117,16 @@ func toPBTask(task todo.Task) *pb.Task {
 		Completed:      task.Completed,
 	}
 }
+func (s *TaskHandler) GetTasksByUser(ctx context.Context, req *pb.GetTasksByUserRequest) (*pb.GetTasksByUserResponse, error) {
+	tasks, err := s.taskService.GetTasksByUser(req.UserId)
+	if err != nil {
+		return nil, err
+	}
+	pbTasks := make([]*pb.Task, 0, len(tasks))
+	for _, task := range tasks {
+		pbTasks = append(pbTasks, toPBTask(task))
+	}
+	return &pb.GetTasksByUserResponse{
+		Tasks: pbTasks,
+	}, nil
+}

@@ -39,3 +39,8 @@ func (s *TaskService) CompleteTask(id int64) (todo.Task, error) {
 	return s.repo.CompleteTask(id)
 
 }
+func (s *TaskService) GetTasksByUser(userId int64) ([]todo.Task, error) {
+
+	return s.repo.GetTasksByUser(userId)
+
+}

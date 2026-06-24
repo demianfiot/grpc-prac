@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package task;
 
-option go_package = "grpcprac/pb/task;task";
+option go_package = "pb/task/proto;task";
 
 service TaskService {
   rpc CreateTask   (CreateTaskRequest)   returns (CreateTaskResponse);
@@ -10,6 +10,7 @@ service TaskService {
   rpc ListTasks    (ListTasksRequest)    returns (ListTasksResponse);
   rpc AssignTask   (AssignTaskRequest)   returns (AssignTaskResponse);
   rpc CompleteTask (CompleteTaskRequest) returns (CompleteTaskResponse);
+  rpc GetTasksByUser (GetTasksByUserRequest) returns (GetTasksByUserResponse);
 }
 
 
@@ -61,4 +62,12 @@ message CompleteTaskRequest {
 
 message CompleteTaskResponse {
   Task task = 1;
+}
+
+message GetTasksByUserRequest {
+  int64 user_id = 1;
+}
+
+message GetTasksByUserResponse {
+  repeated Task tasks = 1;
 }

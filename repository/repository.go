@@ -18,6 +18,7 @@ type Task interface {
 	ListTasks() ([]todo.Task, error)
 	AssignTask(taskID, userID int64) (todo.Task, error)
 	CompleteTask(taskID int64) (todo.Task, error)
+	GetTasksByUser(userID int64) ([]todo.Task, error)
 }
 
 type Repository struct {

@@ -157,3 +157,19 @@ func (r *TaskPostgres) CompleteTask(taskID int64) (todo.Task, error) {
 
 	return task, nil
 }
+func (r *TaskPostgres) GetTasksByUser(userID int64) ([]todo.Task, error) {
+	query := `
+	SELECT id, title, difficulty, xp_reward, assigned_user_id, completed
+	FROM tasks
+	WHERE assigned_user_id = $1
+	`
+
+	var tasks []todo.Task
+
+	err := r.db.Select(&tasks, query, userID)
+	if err != nil {
+		return nil, fmt.Errorf("get tasks by user: %w", err)
+	}
+
+	return tasks, nil
+}

@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.0
 // - protoc             v6.33.1
-// source: proto/task.proto
+// source: task.proto
 
 package task
 
@@ -19,11 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	TaskService_CreateTask_FullMethodName   = "/task.TaskService/CreateTask"
-	TaskService_GetTask_FullMethodName      = "/task.TaskService/GetTask"
-	TaskService_ListTasks_FullMethodName    = "/task.TaskService/ListTasks"
-	TaskService_AssignTask_FullMethodName   = "/task.TaskService/AssignTask"
-	TaskService_CompleteTask_FullMethodName = "/task.TaskService/CompleteTask"
+	TaskService_CreateTask_FullMethodName     = "/task.TaskService/CreateTask"
+	TaskService_GetTask_FullMethodName        = "/task.TaskService/GetTask"
+	TaskService_ListTasks_FullMethodName      = "/task.TaskService/ListTasks"
+	TaskService_AssignTask_FullMethodName     = "/task.TaskService/AssignTask"
+	TaskService_CompleteTask_FullMethodName   = "/task.TaskService/CompleteTask"
+	TaskService_GetTasksByUser_FullMethodName = "/task.TaskService/GetTasksByUser"
 )
 
 // TaskServiceClient is the client API for TaskService service.
@@ -35,6 +36,7 @@ type TaskServiceClient interface {
 	ListTasks(ctx context.Context, in *ListTasksRequest, opts ...grpc.CallOption) (*ListTasksResponse, error)
 	AssignTask(ctx context.Context, in *AssignTaskRequest, opts ...grpc.CallOption) (*AssignTaskResponse, error)
 	CompleteTask(ctx context.Context, in *CompleteTaskRequest, opts ...grpc.CallOption) (*CompleteTaskResponse, error)
+	GetTasksByUser(ctx context.Context, in *GetTasksByUserRequest, opts ...grpc.CallOption) (*GetTasksByUserResponse, error)
 }
 
 type taskServiceClient struct {
@@ -95,6 +97,16 @@ func (c *taskServiceClient) CompleteTask(ctx context.Context, in *CompleteTaskRe
 	return out, nil
 }
 
+func (c *taskServiceClient) GetTasksByUser(ctx context.Context, in *GetTasksByUserRequest, opts ...grpc.CallOption) (*GetTasksByUserResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetTasksByUserResponse)
+	err := c.cc.Invoke(ctx, TaskService_GetTasksByUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TaskServiceServer is the server API for TaskService service.
 // All implementations must embed UnimplementedTaskServiceServer
 // for forward compatibility.
@@ -104,6 +116,7 @@ type TaskServiceServer interface {
 	ListTasks(context.Context, *ListTasksRequest) (*ListTasksResponse, error)
 	AssignTask(context.Context, *AssignTaskRequest) (*AssignTaskResponse, error)
 	CompleteTask(context.Context, *CompleteTaskRequest) (*CompleteTaskResponse, error)
+	GetTasksByUser(context.Context, *GetTasksByUserRequest) (*GetTasksByUserResponse, error)
 	mustEmbedUnimplementedTaskServiceServer()
 }
 
@@ -128,6 +141,9 @@ func (UnimplementedTaskServiceServer) AssignTask(context.Context, *AssignTaskReq
 }
 func (UnimplementedTaskServiceServer) CompleteTask(context.Context, *CompleteTaskRequest) (*CompleteTaskResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method CompleteTask not implemented")
+}
+func (UnimplementedTaskServiceServer) GetTasksByUser(context.Context, *GetTasksByUserRequest) (*GetTasksByUserResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetTasksByUser not implemented")
 }
 func (UnimplementedTaskServiceServer) mustEmbedUnimplementedTaskServiceServer() {}
 func (UnimplementedTaskServiceServer) testEmbeddedByValue()                     {}
@@ -240,6 +256,24 @@ func _TaskService_CompleteTask_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TaskService_GetTasksByUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTasksByUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaskServiceServer).GetTasksByUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TaskService_GetTasksByUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaskServiceServer).GetTasksByUser(ctx, req.(*GetTasksByUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TaskService_ServiceDesc is the grpc.ServiceDesc for TaskService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -267,7 +301,11 @@ var TaskService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "CompleteTask",
 			Handler:    _TaskService_CompleteTask_Handler,
 		},
+		{
+			MethodName: "GetTasksByUser",
+			Handler:    _TaskService_GetTasksByUser_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/task.proto",
+	Metadata: "task.proto",
 }
