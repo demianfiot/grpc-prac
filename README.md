@@ -48,10 +48,10 @@ SERVER_PORT=50051
 
 The repository contains a sample configuration file that can be used as a reference.
 
-### 2. Start PostgreSQL
+### 2. Start the Application
 
 ```bash
-docker compose up -d postgres
+docker compose up -d
 ```
 
 ### 3. Run Database Migrations
@@ -60,11 +60,6 @@ docker compose up -d postgres
 goose -dir ./migrations postgres "user=postgres password=postgres dbname=mydb host=localhost port=5432 sslmode=disable" up
 ```
 
-### 4. Start the Application
-
-```bash
-docker compose up -d
-```
 
 This will start:
 
