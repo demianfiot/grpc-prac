@@ -2,7 +2,6 @@
 
 A simple task management system built with Go, gRPC, PostgreSQL, and Docker.
 
-This project was created as a pet project to learn and practice gRPC development in Go, including Protocol Buffers, service design, database interaction, and layered application architecture.
 
 ## gRPC Services
 
