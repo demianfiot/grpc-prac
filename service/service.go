@@ -9,11 +9,13 @@ type User interface {
 	CreateUser(name string) (todo.User, error)
 	GetUser(id int64) (todo.User, error)
 	ListUsers() ([]todo.User, error)
+	ListUsersFiltered(search string, sortBy string, sortOrder string) ([]todo.User, error)
 }
 type Task interface {
 	CreateTask(task todo.Task) (todo.Task, error)
 	GetTask(id int64) (todo.Task, error)
 	ListTasks() ([]todo.Task, error)
+	ListTasksFiltered(sortBy string, sortOrder string) ([]todo.Task, error)
 	AssignTask(taskID, userID int64) (todo.Task, error)
 	CompleteTask(taskID int64) (todo.Task, error)
 	GetTasksByUser(userID int64) ([]todo.Task, error)

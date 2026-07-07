@@ -63,7 +63,24 @@ goose -dir ./migrations postgres "user=postgres password=postgres dbname=mydb ho
 This will start:
 
 * PostgreSQL
-* gRPC Server
+* gRPC Server (port 50051)
+* HTTP REST API Server (port 8080)
+
+### Frontend (React)
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The frontend runs on `http://localhost:3000` and proxies `/api` requests to the HTTP server on `:8080`.
+
+#### Available Pages
+
+- **`/users`** — list & create users
+- **`/users/:id`** — view user details, XP progress, and assigned tasks
+- **`/tasks`** — list, create, assign, and complete tasks
 
 ## Testing
 

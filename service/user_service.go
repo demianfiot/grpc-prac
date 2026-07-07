@@ -29,3 +29,7 @@ func (s *UserService) ListUsers() ([]todo.User, error) {
 
 	return s.repo.ListUsers()
 }
+
+func (s *UserService) ListUsersFiltered(search, sortBy, sortOrder string) ([]todo.User, error) {
+	return s.repo.ListUsersFiltered(search, sortBy, sortOrder)
+}

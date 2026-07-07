@@ -15,6 +15,22 @@ services:
       - grpc-network
     restart: unless-stopped
 
+  front:
+    build:
+      context: .
+      dockerfile: Dockerfile.http
+    container_name: front
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - grpc-network
+    restart: unless-stopped
+
   postgres:
     image: postgres:15-alpine
     container_name: postgres

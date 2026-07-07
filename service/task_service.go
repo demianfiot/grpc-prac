@@ -29,6 +29,9 @@ func (s *TaskService) ListTasks() ([]todo.Task, error) {
 	return s.repo.ListTasks()
 
 }
+func (s *TaskService) ListTasksFiltered(sortBy, sortOrder string) ([]todo.Task, error) {
+	return s.repo.ListTasksFiltered(sortBy, sortOrder)
+}
 func (s *TaskService) AssignTask(taskid, userid int64) (todo.Task, error) {
 
 	return s.repo.AssignTask(taskid, userid)
